@@ -1,6 +1,12 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/prop-types */
+import Clips from "./utils/Clips";
+import SocialLinks from "./utils/SocialLinks";
+
 // eslint-disable-next-line react/prop-types, no-unused-vars
-const Hero = ({heroapi : {title,subtitle,btntext, img, sociallinks, videos}}) => {
-   
+const Hero = ({
+  heroapi: { title, subtitle, btntext, img, sociallinks, videos },
+}) => {
   return (
     <div className="relative h-auto w-auto flex flex-col ">
       <div className="bg-theme clip-path h-[85vh] lg:h-[75vh] md:h[65vh] sm:h-[55vh] w-auto absolute top-0 left-0 right-0 opacity-100 z-10"></div>
@@ -18,8 +24,16 @@ const Hero = ({heroapi : {title,subtitle,btntext, img, sociallinks, videos}}) =>
           >
             {btntext}
           </button>
-          {/* <div className=""></div>
-          <div className=""></div> */}
+          <div className="grid items-center gap-5 md:gap-3 absolute top-[33vh] lg:top-[27vh] left-[11%] xl:left-0 w-auto h-auto">
+            {videos?.map((val, i) => (
+              <Clips key={i} imgsrc={val.imgsrc} clip={val.clip} />
+            ))}
+          </div>
+          <div className="grid items-center absolute top-[33vh] lg:top-[27vh] right-0">
+            {sociallinks?.map((val, i) => (
+              <SocialLinks key={i} icon={val.icon} />
+            ))}
+          </div>
         </div>
         <div className="">
           <img
