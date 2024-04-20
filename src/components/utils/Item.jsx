@@ -1,11 +1,40 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import React from "react";
-import { StarIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
+import { useDispatch } from "react-redux";
 
-function Item({ ifExists,id, color, shadow, title, text, img, btn, rating, price }) {
+import { StarIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
+import { setAddItemToCart, setOpenCart } from "../../app/CartSlice";
+
+const Item = ({
+  ifExists,
+  id,
+  color,
+  shadow,
+  title,
+  text,
+  img,
+  btn,
+  rating,
+  price,
+}) => {
+  //   console.log(id)
+  const dispatch = useDispatch();
+
+  const onAddToCart = () => {
+    const item = { id, title, text, img, color, shadow, price };
+
+    dispatch(setAddItemToCart(item));
+  };
+
+  const onCartToggle = () => {
+    dispatch(
+      setOpenCart({
+        cartState: true,
+      })
+    );
+  };
+
   return (
-   <>
+    <>
       <div
         className={`relative bg-gradient-to-b ${color} ${shadow} grid items-center ${
           ifExists ? "justify-items-start" : "justify-items-center"
@@ -39,14 +68,17 @@ function Item({ ifExists,id, color, shadow, title, text, img, btn, rating, price
             <button
               type="button"
               className="bg-white/90 blur-effect-theme button-theme p-0.5 shadow shadow-sky-200"
-            //   onClick={()=> onAddToCart()}
+              onClick={() => onAddToCart()}
             >
               <ShoppingBagIcon className="icon-style text-slate-900" />
             </button>
             <button
               type="button"
               className="bg-white/90 blur-effect-theme button-theme px-2 py-1 shadow shadow-sky-200 text-sm text-black"
-            //   onClick={()=> {onAddToCart(); onCartToggle();}}
+              onClick={() => {
+                onAddToCart();
+                onCartToggle();
+              }}
             >
               {btn}
             </button>
@@ -69,8 +101,7 @@ function Item({ ifExists,id, color, shadow, title, text, img, btn, rating, price
         </div>
       </div>
     </>
-    
   );
-}
+};
 
 export default Item;

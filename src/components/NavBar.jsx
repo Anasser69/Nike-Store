@@ -1,27 +1,41 @@
 import { useEffect, useState } from "react";
-import logo from "../assets/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTotalQTY, setOpenCart } from "../app/CartSlice.js";
+
 import {
   HeartIcon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
-const NavBar = () => {
-    const [navState, setNavState] = useState(false);
+import logo from "../assets/logo.png";
 
-        const onNavScroll = () => {
-          if (window.scrollY > 30) {
-            setNavState(true);
-          } else {
-            setNavState(false);
-          }
-        };
-        useEffect(() => {
-          window.addEventListener("scroll", onNavScroll);
+const Navbar = () => {
+  const [navState, setNavState] = useState(false);
+  const dispatch = useDispatch();
+  const totalQTY = useSelector(selectTotalQTY);
 
-          return () => {
-            window.removeEventListener("scroll", onNavScroll);
-          };
-        }, []);
+  const onCartToggle = () => {
+    dispatch(
+      setOpenCart({
+        cartState: true,
+      })
+    );
+  };
+
+  const onNavScroll = () => {
+    if (window.scrollY > 30) {
+      setNavState(true);
+    } else {
+      setNavState(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", onNavScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onNavScroll);
+    };
+  }, []);
   return (
     <>
       <header
@@ -57,7 +71,7 @@ const NavBar = () => {
             <li className="grid items-center">
               <button
                 type="button"
-                // onClick={onCartToggle}
+                onClick={onCartToggle}
                 className="border-none outline-none active:scale-110 transition-all duration-300 relative"
               >
                 <ShoppingBagIcon
@@ -72,8 +86,7 @@ const NavBar = () => {
                       : "bg-slate-100 text-slate-900 shadow-slate-100"
                   }`}
                 >
-                    0
-                  {/* {totalQTY} */}
+                  {totalQTY}
                 </div>
               </button>
             </li>
@@ -84,4 +97,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;
